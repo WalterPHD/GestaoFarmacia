@@ -2,15 +2,15 @@ package classes;
 
 public class Cliente {
 
-    private int id;
+    private int idC;
     private String nome;
     private int idade;
     private char sexo;
     private String celular;
     private int nuit;
 
-    public Cliente(int id, String nome, int idade, char sexo, String celular, int nuit) {
-        this.id = id;
+    public Cliente(int idC, String nome, int idade, char sexo, String celular, int nuit) {
+        this.idC = idC;
         this.nome = nome;
         this.idade = idade;
         this.sexo = sexo;
@@ -18,12 +18,12 @@ public class Cliente {
         this.nuit = nuit;
     }
 
-    public int getId() {
-        return id;
+    public int getIdC() {
+        return idC;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdC(int idC) {
+        this.idC = idC;
     }
 
     public String getNome() {
@@ -68,7 +68,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente [id=" + id + ", nome=" + nome + ", idade=" + idade + ", sexo=" + sexo + ", celular=" + celular
+        return "Cliente [idC=" + idC + ", nome=" + nome + ", idade=" + idade + ", sexo=" + sexo + ", celular=" + celular
                 + ", nuit=" + nuit + "]";
     }
 
