@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import classes.Cliente;
 import classes.Produto;
+import classes.Venda;
 
 public interface GestaoOperacoes {
     // Metodos do Cliente
@@ -13,7 +14,7 @@ public interface GestaoOperacoes {
 
     public void listarCliente(Vector v);
 
-    public void apagarCliente(Vector v, int id);
+    public void apagarCliente(Vector v, int idC);
 
     // Metodos do Produto
     public void adicionarProduto(Vector v, Produto p);
@@ -22,11 +23,11 @@ public interface GestaoOperacoes {
 
     public void listarProduto(Vector v);
 
-    public void apagarProduto(Vector v, int id);
+    public void apagarProduto(Vector v, int idP);
 
     //Nova venda
     public void novaVenda(Vector v, Cliente c, Produto p);
 
     //Listagem de vendas
-    public void todasVendasCliente(int id, Vector v);
+    public void todasVendasCliente(int idV, Vector v);
 }
