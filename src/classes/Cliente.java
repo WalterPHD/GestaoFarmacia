@@ -4,12 +4,10 @@ import java.io.Serializable;
 
 public class Cliente implements Serializable{
 
-    private int id;
-    private String nome;
-    private int idade;
+    private int id, nuit, idade;
+    private String nome, celular;
     private char sexo;
-    private String celular;
-    private int nuit;
+
 
     public Cliente(int id, String nome, int idade, char sexo, String celular, int nuit) {
         this.id = id;

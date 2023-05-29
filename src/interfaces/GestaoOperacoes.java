@@ -9,7 +9,7 @@ public interface GestaoOperacoes {
     // Metodos do Cliente
     public void adicionarCliente(Vector v, Cliente c);
 
-    public void atualizarCliente(Vector v, Cliente c);
+    public void atualizarCliente(Vector v, int nuit);
 
     public void listarCliente(Vector v);
 
@@ -18,7 +18,7 @@ public interface GestaoOperacoes {
     // Metodos do Produto
     public void adicionarProduto(Vector v, Produto p);
 
-    public void atualizarProduto(Vector v, Produto p);
+    public void atualizarProduto(Vector v, int p);
 
     public void listarProduto(Vector v);
 
