@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import classes.Cliente;
 import classes.Produto;
-import classes.Venda;
 
 public interface GestaoOperacoes {
     // Metodos do Cliente
@@ -29,5 +28,10 @@ public interface GestaoOperacoes {
     public void novaVenda(Vector v, Cliente c, Produto p);
 
     //Listagem de vendas
-    public void todasVendasCliente(int idV, Vector v);
+
+    public void todasVendasCliente(int id, Vector v);
+
+    public boolean gravarObj(Object obj, String path);
+
+    public Object recuperarObj(String path);
 }
