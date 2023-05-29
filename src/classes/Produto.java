@@ -2,15 +2,15 @@ package classes;
 import java.util.Calendar;
 
 public class Produto {
-    private int id;
+    private int idP;
     private String nome;
     private String categoria;
     private Calendar entStock;
     private int quantidade;
     private double preco;
 
-    public Produto(int id, String nome, String categoria, Calendar entStock, int quantidade, double preco) {
-        this.id = id;
+    public Produto(int idP, String nome, String categoria, Calendar entStock, int quantidade, double preco) {
+        this.idP = idP;
         this.nome = nome;
         this.categoria = categoria;
         this.entStock = entStock;
@@ -19,12 +19,12 @@ public class Produto {
     }
 
 
-    public int getId() {
-        return id;
+    public int getIdP() {
+        return idP;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdP(int idP) {
+        this.idP = idP;
     }
 
     public String getNome() {
@@ -69,7 +69,7 @@ public class Produto {
 
     @Override
     public String toString() {
-        return "Produto [id=" + id + ", nome=" + nome + ", categoria=" + categoria + ", entStock=" + entStock
+        return "Produto [idP=" + idP + ", nome=" + nome + ", categoria=" + categoria + ", entStock=" + entStock
                 + ", quantidade=" + quantidade + ", preco=" + preco + "]";
     }
 
