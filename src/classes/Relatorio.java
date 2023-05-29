@@ -1,5 +1,8 @@
 package classes;
-public class Relatorio {
+
+import java.io.Serializable;
+
+public class Relatorio implements Serializable{
     private Produto prod;
     private Venda venda;
     private Cliente cliente;

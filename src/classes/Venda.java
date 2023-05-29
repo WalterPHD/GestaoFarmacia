@@ -1,7 +1,8 @@
 package classes;
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class Venda {
+public class Venda implements Serializable{
     private int id;
     private Calendar dataVenda;
     private int idCliente;
