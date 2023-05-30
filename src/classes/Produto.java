@@ -70,8 +70,7 @@ public class Produto implements Serializable{
 
     @Override
     public String toString() {
-        return "Produto [id=" + id + ", nome=" + nome + ", categoria=" + categoria + ", entStock=" + entStock
-                + ", quantidade=" + quantidade + ", preco=" + preco + "]";
+        return "Produto [id=" + id + ", nome=" + nome + ", categoria=" + categoria + ", entStock=" +entStock.get(Calendar.DAY_OF_MONTH)+"/"+entStock.get(Calendar.MONTH)+"/"+entStock.get(Calendar.YEAR)+ ", quantidade=" + quantidade + ", preco=" + preco + "]";
     }
 
 }

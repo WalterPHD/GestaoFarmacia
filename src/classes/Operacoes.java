@@ -16,16 +16,16 @@ public class Operacoes implements GestaoOperacoes {
     // Metodos do Cliente
     public void adicionarCliente(Vector v, Cliente c) {
         v.add(c);
-        System.out.println("Cliente adicionado1");
+        System.out.println("Cliente adicionado!");
     }
 
-    public void atualizarCliente(Vector v, int nuit) {
+    public void atualizarCliente(Vector v, int id) {
         int op, idade;
         String nome, celular;
         char sexo;
 
         for (int i = 0; i < v.size(); i++) {
-            if (((Cliente) v.get(i)).getNuit() == nuit) {
+            if (((Cliente) v.get(i)).getId() == id) {
                 System.out.println("O que deseja atualizar neste cliente?");
                 System.out.println("1 - Nome\n2 - Idade\n3 - Celular\n4 - Sexo");
                 op = input.nextInt();
@@ -48,6 +48,8 @@ public class Operacoes implements GestaoOperacoes {
 
                     case 3:
                         System.out.print("Insira o novo numero de celular: ");
+                        input.nextLine();
+
                         celular = input.nextLine();
                         ((Cliente) v.get(i)).setCelular(celular);
                         System.out.println("Celular atualizado com sucesso.");
@@ -66,14 +68,18 @@ public class Operacoes implements GestaoOperacoes {
                 }
 
             } else {
-                System.out.println("Desculpe, mas nao existe um cliente com o NUIT: "+nuit);
+                System.out.println("Desculpe, mas nao existe um cliente com o ID: " + id);
             }
         }
     }
 
     public void listarCliente(Vector v) {
-        for (int i = 0; i < v.size(); i++) {
-            System.out.println(i + " - " + (Cliente) v.get(i));
+        if (!v.isEmpty()) {
+            for (int i = 0; i < v.size(); i++) {
+                System.out.println(i + " - " + (Cliente) v.get(i));
+            }
+        } else {
+            System.out.println("Nao existem clientes...");
         }
     }
 
@@ -138,20 +144,20 @@ public class Operacoes implements GestaoOperacoes {
                 }
 
             } else {
-                System.out.println("Desculpe, mas nao existe um produto com o ID: "+p);
+                System.out.println("Desculpe, mas nao existe um produto com o ID: " + p);
             }
         }
     }
 
     public void listarProduto(Vector v) {
-        for(int i = 0; i<v.size(); i++){
-            System.out.println(i+" - "+(Produto)v.get(i));
+        for (int i = 0; i < v.size(); i++) {
+            System.out.println(i + " - " + (Produto) v.get(i));
         }
     }
 
     public void apagarProduto(Vector v, int id) {
-        for(int i = 0; i<v.size();i++){
-            if(((Produto)v.get(i)).getId() == id){
+        for (int i = 0; i < v.size(); i++) {
+            if (((Produto) v.get(i)).getId() == id) {
                 v.removeElementAt(i);
                 System.out.println("Produto removido!");
             }
