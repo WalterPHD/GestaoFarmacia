@@ -24,14 +24,18 @@ public interface GestaoOperacoes {
 
     public void apagarProduto(Vector v, int idP);
 
-    //Nova venda
+    // Nova venda
     public void novaVenda(Vector v, Cliente c, Produto p);
 
-    //Listagem de vendas
+    // Listagem de vendas
 
     public void todasVendasCliente(int id, Vector v);
 
     public boolean gravarObj(Object obj, String path);
 
-    public Object recuperarObj(String path);
+    public Object recuperarObj(Object obj, String path);
+
+    public boolean atualizarObj(Object obj, String path);
+
+    public boolean apagarObj(Object obj, String path, int id);
 }

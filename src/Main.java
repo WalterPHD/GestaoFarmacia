@@ -25,19 +25,22 @@ public class Main {
 
         File fCliente = new File(client);
         if (fCliente.length() != 0) {
-            recuperarClientes = (Vector) operacoes.recuperarObj(client);
+            recuperarClientes = (Vector) operacoes.recuperarObj(recuperarClientes, client);
         }
 
         File fProduto = new File(product);
         if (fProduto.length() != 0) {
-            recuperarProdutos = (Vector) operacoes.recuperarObj(product);
+            recuperarProdutos = (Vector) operacoes.recuperarObj(recuperarProdutos, product);
         }
 
         Vector v = new Vector();
         Scanner input = new Scanner(System.in);
         int op, oc, p, n;
+        boolean ficheiro;
         System.out.println("===============Seja bem vindo a Farmacia 5===============");
         do {
+            // operacoes.recuperarObj(client);
+            // operacoes.recuperarObj(product);
             System.out.println("Onde deseja aceder?");
             System.out.print(
                     "1 - Area de clientes\n2 - Area de produtos\n3 - Efectuar venda\n4 - Emitir relatorio!\n5 - Sair\nInsira a sua opcao: ");
@@ -52,6 +55,7 @@ public class Main {
                     oc = input.nextInt();
                     switch (oc) {
                         case 1:
+                            v = (Vector) operacoes.recuperarObj(v, client);
                             System.out.println("Insira o...:");
                             System.out.println("Codigo do cliente");
                             int cod = input.nextInt();
@@ -75,28 +79,34 @@ public class Main {
                             Cliente c = new Cliente(cod, nome, idade, s, cell, nuit);
 
                             operacoes.adicionarCliente(v, c);
-                            boolean ficheiro = operacoes.gravarObj(v, client);
+                            ficheiro = operacoes.gravarObj(v, client);
 
                             break;
 
                         case 2:
-                            operacoes.listarCliente(recuperarClientes);
+                            operacoes.listarCliente(v);
                             break;
 
                         case 3:
-                            operacoes.listarCliente(recuperarClientes);
+                            v = (Vector) operacoes.recuperarObj(v, client);
+                            operacoes.listarCliente(v);
                             System.out.println("Insira o ID do cliente que deseja atualizar:");
                             n = input.nextInt();
-                            operacoes.atualizarCliente(recuperarClientes, n);
-                            operacoes.listarCliente(recuperarClientes);
+                            operacoes.atualizarCliente(v, n);
+                            ficheiro = operacoes.gravarObj(v, client);
+                            v = (Vector) operacoes.recuperarObj(v, client);
+                            operacoes.listarCliente(v);
                             break;
 
                         case 4:
-                            operacoes.listarCliente(recuperarClientes);
+                            v = (Vector) operacoes.recuperarObj(v, client);
+                            operacoes.listarCliente(v);
                             System.out.println("Insira o ID do cliente a ser removido:");
                             n = input.nextInt();
-                            operacoes.apagarCliente(recuperarClientes, n);
-                            operacoes.listarCliente(recuperarClientes);
+                            operacoes.apagarCliente(v, n);
+                            ficheiro = operacoes.gravarObj(v, client);
+                            v = (Vector) operacoes.recuperarObj(v, client);
+                            operacoes.listarCliente(v);
                             break;
 
                         default:
@@ -132,7 +142,7 @@ public class Main {
                             Produto prod = new Produto(cod, nome, cate, data, idade, preco);
 
                             operacoes.adicionarProduto(v, prod);
-                            boolean ficheiro = operacoes.gravarObj(v, product);
+                            ficheiro = operacoes.gravarObj(v, product);
                             break;
 
                         case 2:
@@ -165,6 +175,8 @@ public class Main {
                     System.out.println("Opcao invalida");
                     break;
             }
+            // operacoes.recuperarObj(client);
+            // operacoes.recuperarObj(product);
         } while (op != 5);
 
         System.out.println("Muito obrigado!");

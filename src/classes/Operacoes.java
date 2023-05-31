@@ -3,6 +3,7 @@ package classes;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
@@ -29,6 +30,7 @@ public class Operacoes implements GestaoOperacoes {
                 System.out.println("O que deseja atualizar neste cliente?");
                 System.out.println("1 - Nome\n2 - Idade\n3 - Celular\n4 - Sexo");
                 op = input.nextInt();
+                input.nextLine();
 
                 switch (op) {
 
@@ -74,7 +76,7 @@ public class Operacoes implements GestaoOperacoes {
     }
 
     public void listarCliente(Vector v) {
-        if (!v.isEmpty()) {
+        if (v != null) {
             for (int i = 0; i < v.size(); i++) {
                 System.out.println(i + " - " + (Cliente) v.get(i));
             }
@@ -84,11 +86,15 @@ public class Operacoes implements GestaoOperacoes {
     }
 
     public void apagarCliente(Vector v, int id) {
-        for (int i = 0; i < v.size(); i++) {
-            if (((Cliente) v.get(i)).getId() == id) {
-                v.removeElementAt(i);
-                System.out.println("Cliente removido!");
+        if (v != null) {
+            for (int i = 0; i < v.size(); i++) {
+                if (((Cliente) v.get(i)).getId() == id) {
+                    v.removeElementAt(i);
+                    System.out.println("Cliente removido!");
+                }
             }
+        }else{
+            System.out.println("Nao eistem clientes para serem removidos...");
         }
     }
 
@@ -206,21 +212,104 @@ public class Operacoes implements GestaoOperacoes {
     }
 
     @Override
-    public Object recuperarObj(String path) {
+    public Object recuperarObj(Object obj, String path) {
+        // File arquivo = new File(path);
+        // try {
+        // FileInputStream fileIn = new FileInputStream(arquivo);
+        // ObjectInputStream objIn = new ObjectInputStream(fileIn);
+
+        // Object retorno = objIn.readObject();
+
+        // objIn.close();
+        // fileIn.close();
+
+        // return retorno;
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // return null;a
+        // }
+
         File arquivo = new File(path);
+
+        if (!arquivo.exists()) {
+            try {
+                this.gravarObj(obj, path);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return obj;
+        } else {
+            try {
+                FileInputStream fileInput = new FileInputStream(arquivo);
+                ObjectInputStream objInput = new ObjectInputStream(fileInput);
+
+                Object retorno = objInput.readObject();
+
+                objInput.close();
+                fileInput.close();
+
+                return retorno;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    public boolean atualizarObj(Object obj, String path) {
+        File arquivo = new File(path);
+
+        try {
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public boolean apagarObj(Object obj, String path, int id) {
+        File arquivo = new File(path);
+        Vector clientes = new Vector();
         try {
             FileInputStream fileIn = new FileInputStream(arquivo);
             ObjectInputStream objIn = new ObjectInputStream(fileIn);
+            FileOutputStream fileOut = new FileOutputStream(arquivo);
+            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
 
-            Object retorno = objIn.readObject();
+            clientes = (Vector) objIn.readObject();
+            Object clientePorApagar = null;
+            for (Object cliente : clientes) {
+                if (((Cliente) cliente).getId() == id) {
+                    clientePorApagar = cliente;
+                    break;
+                }
+                if (clientePorApagar != null) {
+                    clientes.remove(clientePorApagar);
+                    System.out.println("Cliente apagado!");
+                } else {
+                    System.out.println("Cliente nao encontrado!");
+                }
+            }
+
+            objOut.writeObject(clientes);
+            objOut.flush();
+            fileOut.flush();
+
+            objOut.close();
+            fileOut.close();
 
             objIn.close();
             fileIn.close();
 
-            return retorno;
-        } catch (Exception e) {
+            return true;
+
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            return null;
+            return false;
         }
+
     }
 }
