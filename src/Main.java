@@ -1,4 +1,6 @@
 import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Scanner;
 import java.util.Vector;
@@ -14,6 +16,9 @@ public class Main {
         String client = "src/data/Client.txt";
         String product = "src/data/Product.txt";
         Calendar data = Calendar.getInstance();
+        LocalDate dateObj = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String date = dateObj.format(formatter);
         // SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy");
         // sdf.format(data.getTime());
         // data = sdf.format(data.getTime());
@@ -36,6 +41,7 @@ public class Main {
         Vector v = new Vector();
         Scanner input = new Scanner(System.in);
         int op, oc, p, n;
+        double saldo = 0;
         boolean ficheiro;
         System.out.println("===============Seja bem vindo a Farmacia 5===============");
         do {
@@ -49,13 +55,14 @@ public class Main {
             switch (op) {
 
                 case 1:
+                    v = (Vector) operacoes.recuperarObj(v, client);
                     System.out.println("Area do cliente!");
                     System.out.println(
                             "Qual operacao deseja fazer?\n1 - Registrar Cliente\n2 - Listar todos os clientes\n3 - Atualizar um cliente\n4 - Remover um cliente");
                     oc = input.nextInt();
                     switch (oc) {
                         case 1:
-                            v = (Vector) operacoes.recuperarObj(v, client);
+
                             System.out.println("Insira o...:");
                             System.out.println("Codigo do cliente");
                             int cod = input.nextInt();
@@ -76,7 +83,7 @@ public class Main {
                             System.out.println("Nuit");
                             int nuit = input.nextInt();
 
-                            Cliente c = new Cliente(cod, nome, idade, s, cell, nuit);
+                            Cliente c = new Cliente(cod, nome, idade, s, cell, nuit, saldo);
 
                             operacoes.adicionarCliente(v, c);
                             ficheiro = operacoes.gravarObj(v, client);
@@ -88,7 +95,7 @@ public class Main {
                             break;
 
                         case 3:
-                            v = (Vector) operacoes.recuperarObj(v, client);
+                            // v = (Vector) operacoes.recuperarObj(v, client);
                             operacoes.listarCliente(v);
                             System.out.println("Insira o ID do cliente que deseja atualizar:");
                             n = input.nextInt();
@@ -99,7 +106,7 @@ public class Main {
                             break;
 
                         case 4:
-                            v = (Vector) operacoes.recuperarObj(v, client);
+                            // v = (Vector) operacoes.recuperarObj(v, client);
                             operacoes.listarCliente(v);
                             System.out.println("Insira o ID do cliente a ser removido:");
                             n = input.nextInt();
@@ -116,6 +123,7 @@ public class Main {
                     break;
 
                 case 2:
+                    v = (Vector) operacoes.recuperarObj(v, product);
                     System.out.println("Area de produtos!");
                     System.out.println(
                             "Qual operacao deseja fazer?\n1 - Registrar produto\n2 - Listar todos os produtos\n3 - Atualizar um produto\n4 - Remover um produto");
@@ -139,7 +147,7 @@ public class Main {
                             System.out.println("Preco");
                             double preco = input.nextDouble();
 
-                            Produto prod = new Produto(cod, nome, cate, data, idade, preco);
+                            Produto prod = new Produto(cod, nome, cate, date, idade, preco);
 
                             operacoes.adicionarProduto(v, prod);
                             ficheiro = operacoes.gravarObj(v, product);
@@ -147,13 +155,27 @@ public class Main {
 
                         case 2:
 
-                            operacoes.listarProduto(recuperarProdutos);
+                            operacoes.listarProduto(v);
                             break;
 
                         case 3:
+                            operacoes.listarProduto(v);
+                            System.out.println("Insira o ID do cliente a ser removido:");
+                            n = input.nextInt();
+                            operacoes.atualizarProduto(v, p);
+                            ficheiro = operacoes.gravarObj(v, product);
+                            v = (Vector) operacoes.recuperarObj(v, product);
+                            operacoes.listarCliente(v);
                             break;
 
                         case 4:
+                            operacoes.listarProduto(v);
+                            System.out.println("Insira o ID do produto a ser removido:");
+                            n = input.nextInt();
+                            operacoes.apagarProduto(v, n);
+                            ficheiro = operacoes.gravarObj(v, product);
+                            v = (Vector) operacoes.recuperarObj(v, product);
+                            operacoes.listarCliente(v);
                             break;
 
                         default:
@@ -163,12 +185,20 @@ public class Main {
                     break;
 
                 case 3:
+                    v = (Vector) operacoes.recuperarObj(v, client);
+                    operacoes.listarCliente(v);
+                    System.out.println("Indique o ID do cliente");
+                    int idC = input.nextInt();
+                    operacoes.novaVenda(v, idC);
+                    
+
                     break;
 
                 case 4:
                     break;
 
                 case 5:
+                    System.out.println("Volte sempre!");
                     break;
 
                 default:

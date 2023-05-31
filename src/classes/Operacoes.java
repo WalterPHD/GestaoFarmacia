@@ -93,7 +93,7 @@ public class Operacoes implements GestaoOperacoes {
                     System.out.println("Cliente removido!");
                 }
             }
-        }else{
+        } else {
             System.out.println("Nao eistem clientes para serem removidos...");
         }
     }
@@ -170,8 +170,49 @@ public class Operacoes implements GestaoOperacoes {
         }
     }
 
-    public void novaVenda(Vector v, Cliente c, Produto p) {
-        // metodo aqui!
+    public void novaVenda(Vector v, int c) {
+        String path = "src/data/Product.txt";
+        int opcao, p;
+        Vector produtos = new Vector();
+        Vector<Produto> carrinho = new Vector<Produto>();
+        // System.out.print("Insira o ID do cliente para iniciar com a compra: ");
+        // c = input.nextInt();
+        for (int i = 0; i < v.size(); i++) {
+            if (((Cliente) v.get(i)).getId() == c) {
+                
+                // ((Venda) v.get(i)).setIdCliente(1);
+                // ((Venda) v.get(i)).setIdCliente(((Cliente) v.get(i)).getId());
+
+                System.out.println("Cliente encontrado");
+                produtos = (Vector) this.recuperarObj(v, path);
+                this.listarProduto(produtos);
+                System.out.print("Insira o ID do produto para adicionar ao carrinho: ");
+                p = input.nextInt();
+                
+                
+                
+                do{
+                for (int j = 0; j < v.size(); j++) {
+                    
+                    if (((Produto) produtos.get(j)).getId() == p) {
+                        System.out.println("Qual e a quantidade que deseja?: ");
+                        int quant = input.nextInt();
+                        v = (Vector) this.recuperarObj(v, path);
+                        if (quant > ((Produto) v.get(j)).getQuantidade()) {
+                            System.out.println("Desculpa, mas essa quantidade nao esta disponivel.");
+                        } else {
+                            carrinho.add((Produto) v.get(j));
+                            this.gravarObj(carrinho, "src/data/Vendas.txt");
+                        }
+                    }
+                }
+                System.out.print("Deseja comprar mais alguma coisa? 1-SIM | 2- NAO");
+                opcao = input.nextInt();
+            }while(opcao != 2);
+
+            }
+        }
+
     }
 
     public void todasVendasCliente(int id, Vector v) {

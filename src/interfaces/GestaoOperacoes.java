@@ -25,7 +25,7 @@ public interface GestaoOperacoes {
     public void apagarProduto(Vector v, int idP);
 
     // Nova venda
-    public void novaVenda(Vector v, Cliente c, Produto p);
+    public void novaVenda(Vector v, int idC);
 
     // Listagem de vendas
 

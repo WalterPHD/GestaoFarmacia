@@ -7,15 +7,25 @@ public class Cliente implements Serializable{
     private int id, nuit, idade;
     private String nome, celular;
     private char sexo;
+    private double saldo;
 
 
-    public Cliente(int id, String nome, int idade, char sexo, String celular, int nuit) {
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public Cliente(int id, String nome, int idade, char sexo, String celular, int nuit, double saldo) {
         this.id = id;
         this.nome = nome;
         this.idade = idade;
         this.sexo = sexo;
         this.celular = celular;
         this.nuit = nuit;
+        this.saldo = saldo;
     }
 
     public int getId() {
