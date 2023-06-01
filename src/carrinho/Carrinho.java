@@ -21,6 +21,6 @@ public void setTotal(double total) {
 @Override
 public String toCarrinho() {
 	// TODO Auto-generated method stub
-	return super.toCarrinho()+"\t | TOTAL: "+total+"]";
+	return super.toCarrinho()+"\t  TOTAL- "+total;
 }
 }

@@ -16,11 +16,7 @@ public class Cliente implements Serializable {
 	private Vector compras = new Vector();
 	private Calendar data_Criacao;
 
-	/*
-	 * O cliente tem um vector de todas as compras já feitas Caso tenha de recuperar
-	 * ou iniicializar pela primeira vez, este construtor leva o vector, vazio ou
-	 * não
-	 */
+
 	public Cliente(Calendar data_Criacao, int id, String bi, String nome, String numeroTel, String email,
 			Vector compras) {
 		this.id = id;
@@ -91,8 +87,8 @@ public class Cliente implements Serializable {
 	@Override
 	public String toString() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-		return "Cliente [CRIADO EM: "+dateFormat.format(data_Criacao.getTime())+"\t | ID=" + id + "\t | Nome=" + nome + "\t | BI=" + bi + "\t | E-mail=" + email + "\t | Telemóvel="
-				+ numeroTel +"]";
+		return "Cliente data-"+dateFormat.format(data_Criacao.getTime())+"\t  id-" + id + "\t nome-" + nome + "\t  bi-" + bi + "\t | E-mail-" + email + "\t | celular-"
+				+ numeroTel;
 	}
 	public String curtoString() {
 		return "\n\n------ID:"+id+"\tNome: "+nome;

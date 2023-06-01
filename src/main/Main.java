@@ -23,10 +23,8 @@ public class Main {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 		System.out.println(dateFormat.format(cal.getTime()));
-		// Instância de operações comuns
 		OperacoesVitais opVitais = new OperacoesVitais();
-		// Instância Vector dos Clientes (Eventualmente deve recuperar do ficheiro de
-		// texto)
+
 
 		Vector clientes = new Vector();
 		String caminhoClientes = "Cliente\\ClientesDB.txt";
@@ -34,14 +32,11 @@ public class Main {
 		if (fileClientes.length() != 0) {
 			clientes = (Vector) opVitais.recuperarObjecto(caminhoClientes);
 		}
-
-		// Instância Vector dos Produtos no Stock. (Eventualmente deve recuperar do
-		// ficheiro de texto)
-		Vector stock = new Vector();
+		Vector produtos = new Vector();
 		String caminhoProduto = "Produtos\\ProdutosDB.txt";
 		File fileProdutos = new File(caminhoProduto);
 		if (fileProdutos.length() != 0) {
-			stock = (Vector) opVitais.recuperarObjecto(caminhoProduto);
+			produtos = (Vector) opVitais.recuperarObjecto(caminhoProduto);
 		}
 
 		Vector vendas = new Vector();
@@ -50,67 +45,50 @@ public class Main {
 		if (fileVendas.length() != 0) {
 			vendas = (Vector) opVitais.recuperarObjecto(caminhoVendas);
 		}
-		// Instância de Operações do Vector Clientes
 		OperecoesCliente opCliente = new OperecoesCliente();
 
-		// Instância de Operações do Vector Clientes
 		OperacoesCarrinho operacoesCart = new OperacoesCarrinho();
 
-		// Instância de Operações do Stock
-		Stock armazem = new Stock();
+		Stock stock = new Stock();
 
-		// Recuperação de produtos do ficheiro de texto
-		// Recuperando o que já tem
-
-		/*
-		 * Vector stockRecuperado=(Vector)opVitais.recuperarObjecto(caminhoProduto);
-		 * System.out.println(stockRecuperado.toString());
-		 */
 		Scanner ler = new Scanner(System.in);
 
 		Random aleatorio = new Random();
 
 		int operacao;
-		int id;// Usando variavel id para todos requisitos
-		do {// OPERAÇÕES PRINCIPAL E TELA DE BEM-VINDO
+		int id;
+		do {
 			System.out.println(
-					"\t-----\tBEM-VINDO(A) A FARMACIA SALGADO\t-----\n SELECCIONE A SUA OPÇÃO\n1.Comprar\n2. Mais Opções(Cliente/Produto/Vendas)\n0. SAIR DO PROGRAMA\n>>> ");
+					"\t-----\tBEM-VINDO(A) A FARMACIA SALGADO\t-----\n SELECCIONE A SUA OPCAO\n1.Comprar\n2. Mais Opcoes(Cliente/Produto/Vendas)\n0. SAIR DO PROGRAMA\n>>> ");
 			operacao = ler.nextInt();
 			int procuraCodigo = -1;
 			switch (operacao) {
 			case 1:
-				// Instância Vector dos Produtos no Carrinho. Não recupera nada. guarda tudo na
-				// mémoria temporária
 				Vector carrinho = new Vector();
-				System.out.print("\nIDENTIFIQUE-SE USANDO O CÓDIGO LECC\n>>>");
-				// int identificacao=ler.nextInt();
-				int codeLECC = ler.nextInt();
-				procuraCodigo = opCliente.procuraID(clientes, codeLECC);
+				System.out.print("\nIDENTIFIQUE-SE USANDO O NUMERO DO CLIENTE\n>>>");
+				int codeCLiente = ler.nextInt();
+				procuraCodigo = opCliente.procuraID(clientes, codeCLiente);
 				if (procuraCodigo != -1) {
 					int opcoesCarrinho;
 					do {
 						System.out.print("\n BEM-VINDO(A) (" + ((Cliente) clientes.get(procuraCodigo)).getId() + ") "
 								+ ((Cliente) clientes.get(procuraCodigo)).getNome() + " "
-								+ "\n-----\tESCOLHA A SUA OPERAÇÃO DE CARRINHO\t------\n1. Adicionar produto no carrinho\n2. Remover Produto do carrinho\n3. Ver produtos no carrinho\n4. Ver produtos disponíveis\n5. Finalizar Compra\n0. CANCELAR\n>>> ");
+								+ "\n-----\tESCOLHA A SUA OPERACAO DE CARRINHO\t------\n1. Adicionar produto no carrinho\n2. Remover Produto do carrinho\n3. Ver produtos no carrinho\n4. Ver produtos disponíveis\n5. Finalizar Compra\n0. CANCELAR\n>>> ");
 						opcoesCarrinho = ler.nextInt();
 
-						Vector stockTemporario = stock;
+						Vector stockTemporario = produtos;
 						switch (opcoesCarrinho) {
 						case 1:
-							// Instancia do carrinho cheio de produtos
 							System.out.println("Qual é o código do produto que pretende adicionar no carrinho?");
 							int codProd = ler.nextInt();
-							int index = armazem.procurarCodigo(stock, codProd);
+							int index = stock.procurarCodigo(produtos, codProd);
 							if (index != -1) {
 
-								System.out.println("E qual é a quantidade de " + ((Produto) stock.get(index)).getNome()
+								System.out.println("E qual é a quantidade de " + ((Produto) produtos.get(index)).getNome()
 										+ " que pretende adicionar ao carrinho?");
-								// cart.getProdutos().add(((Produto) stock.get(index)));
 								int quantidade = ler.nextInt();
-								// Index do produto no stock
-								operacoesCart.adicionarProduto(((Produto) stock.get(index)).getId(), carrinho,
+								operacoesCart.adicionarProduto(((Produto) produtos.get(index)).getId(), carrinho,
 										stockTemporario, quantidade);
-								// DEVE MULTIPLICAR OS PRODUTOS PELA QUANTIDADE
 							} else {
 								System.out.println("Produto não está em stock");
 							}
@@ -119,22 +97,17 @@ public class Main {
 						case 2:
 							System.out.println("Qual é o código do produto que pretende remover no carrinho?");
 							int code = ler.nextInt();
-							// REMOÇÃO DEVOLVE TODOS OS CARRINHOS AO STOCK TEMPORÁRIO
-							// REMOVER TUDO OU 1?
-							// operacoesCart.removerProduto(code, cart);
-
 							operacoesCart.removerProdutoQuantidade(code, carrinho, stockTemporario, 2);
 							break;
 						case 3:
-							System.out.println("\n--------------------\tITENS DO CARRINHO\t--------------------");
+							System.out.println("\n--------------------\tITENS\t--------------------");
 							operacoesCart.listarItensCarrinho(carrinho);
 							break;
 						case 4:
-							armazem.imprimirTodos(stockTemporario);
+							stock.imprimirTodos(stockTemporario);
 							break;
 						case 5:
-							// AUMENTAR VENDA e GRAVAR A COMPRA NO CLIENTE QUE ESTÁ A USAR O PROGRAMA
-							int idCompra = operacoesCart.geracaoID(vendas);
+							int idCompra = vendas.size()+1;
 							if (operacoesCart.vendaDinheiro(idCompra, carrinho,
 									(Cliente) clientes.get(procuraCodigo))) {
 								operacoesCart.actualizarVendas(carrinho, stockTemporario);
@@ -152,15 +125,15 @@ public class Main {
 						}
 					} while (opcoesCarrinho != 0);
 				} else {
-					System.out.println("-----------------------------------\nCLIENTE COM CÓDIGO " + codeLECC
-							+ " NÃO CADASTRADO! TENTE DE NOVO\n------------------------------------");
+					System.out.println("-----------------------------------\nCLIENTE COM CODIGO " + codeCLiente
+							+ " NAO CADASTRADO! TENTE DE NOVO\n------------------------------------");
 				}
 				break;
 			case 2:
 				int opcoes;
 
 				do {// OPERAÇÕES MAIS OPERAÇÕES
-					System.out.println("-----\tOPÇÕES\t-----");
+					System.out.println("-----\tOPCOES\t-----");
 					System.out.print("\n1. Clientes\n2. Produtos\n3. Vendas\n0. Voltar\n>>> ");
 					opcoes = ler.nextInt();
 					switch (opcoes) {
@@ -169,7 +142,7 @@ public class Main {
 						do {// OPERAÇÕES DOS CLIENTES
 
 							System.out.print(
-									"\n\t-----OPERAÇÕES CLIENTE-----\n1. Criar Cliente\n2. Actualizar Cliente\n3. Remover Cliente\n4. Pesquisar Cliente\n5. Ver todos os clientes\n6. Ver conta Correne do Cliente\n0. SAIR E SALVAR ALTERAÇÕES\n>>> ");
+									"\n\t-----OPERACOES CLIENTE-----\n1. Criar Cliente\n2. Actualizar Cliente\n3. Remover Cliente\n4. Pesquisar Cliente\n5. Ver todos os clientes\n6. Ver conta Correne do Cliente\n0. SAIR E SALVAR ALTERACOES\n>>> ");
 							opcaoCliente = ler.nextInt();
 							switch (opcaoCliente) {
 							case 0:
@@ -179,7 +152,7 @@ public class Main {
 								// 1-INSERIR CLIENTE
 								Vector compras = new Vector();// Vector vazio com compras do Cliente novo
 								// GERAÇÃO DE ID
-								int codigo = opCliente.geracaoID(clientes);
+								int codigo = clientes.size()+1	;
 								System.out.println("BI DO CLIENTE:");
 								String bi = ler.next().toUpperCase().replace(" ", "");
 								// VERIFICAÇÃO DE BIS DUPLICADOS
@@ -187,7 +160,7 @@ public class Main {
 								System.out.println("Nome do Cliente:");
 								String nome = ler.nextLine().toUpperCase();
 								// ler.nextLine();
-								System.out.println("Número de telemóvel Cliente");
+								System.out.println("Número de telemovel Cliente");
 								String numeroTel = "+" + ler.nextLine().replace(" ", "");
 								;
 								System.out.println("E-mail");
@@ -226,7 +199,7 @@ public class Main {
 								break;
 							case 6:
 								// Ver conta corrente do Cliente (Tudo que já comprou em valores)
-								System.out.println("Insira o código de identificação do cliente:");
+								System.out.println("Insira o codigo de identificacao do cliente:");
 								int codigoCl = ler.nextInt();
 								//int getCode = opCliente.procuraID(clientes, codigoCl);
 
@@ -244,18 +217,18 @@ public class Main {
 						int opcaoProduto;
 						do {
 							System.out.println(
-									"\n\t-----OPERAÇÕES PRODUTO-----\n1. Encomendar produto\n2. Actualizar Produto\n3. Remover Produto\n4. Pesquisar Produto\n5. Emitir Relatórios do Stock\n6. Ver todos os produtos\n0. SAIR E SALVAR ALTERAÇÕES\n>>>");
+									"\n\t-----OPERACOES PRODUTO-----\n1. Encomendar produto\n2. Actualizar Produto\n3. Remover Produto\n4. Pesquisar Produto\n5. Emitir Relatorios do Stock\n6. Ver todos os produtos\n0. SAIR E SALVAR ALTERACOES\n>>>");
 							opcaoProduto = ler.nextInt();
 							switch (opcaoProduto) {
 							case 0:
 
-								boolean gravou = opVitais.gravarObjecto(stock, caminhoProduto);
+								boolean gravou = opVitais.gravarObjecto(produtos, caminhoProduto);
 
 								break;
 							case 1:
 								// Adicionar produtos no Stock
 								// !AO ENCOMENDAR O PRODUTO PODE DEVE/PODE ESCOLHER A QUANTIDADE!
-								int codigo = armazem.geracaoID(stock);
+								int codigo = produtos.size()+1;
 								System.out.println("Quantidade da encomenda: ");
 								int qtd = ler.nextInt();
 								ler.nextLine();
@@ -268,59 +241,53 @@ public class Main {
 								String nomeProduto = ler.nextLine().toUpperCase();
 
 								Produto prod = new Produto(codigo, nomeProduto, qtd, preco);
-								armazem.adicionarNovoProduto(stock, prod);
+								stock.adicionarNovoProduto(produtos, prod);
 								break;
 							case 2:
-								// 2 - Actualizar dados do Produto
+
 								System.out.println("ID do produto que pretende actualizar:");
 								id = ler.nextInt();
-								armazem.editarDadoProduto(stock, id);
+								stock.editarDadoProduto(produtos, id);
 								break;
 							case 3:
-								// 3 - Remover Produto
 								System.out.println("ID do produto que pretende remover:");
 								id = ler.nextInt();
-								armazem.removerProduto(stock, id);
+								stock.removerProduto(produtos, id);
 								break;
 							case 4:
 								// Pesquisar Produto
 								System.out.println("ID do produto que pretende pesquisar: ");
 								id = ler.nextInt();
-								int indice = armazem.procurarCodigo(stock, id);
+								int indice = stock.procurarCodigo(produtos, id);
 								if (indice != -1) {
-									System.out.println(((Produto) stock.get(indice)).toString());
+									System.out.println(((Produto) produtos.get(indice)).toString());
 								} else {
 									System.out.println("Produto inexistente");
 								}
 
 								break;
 							case 5:
-								// Emitir Relatórios do Stock (produtos abaixo de 5 unidades e produtos mais
-								// vendidos)
 								System.out.println("OS PRODUTOS ABAIXO DE 5 UNIDADES SÃO:");
-								armazem.abaixoDe5(stock);
+								stock.abaixoDe5(produtos);
 
 								System.out
 										.println("\nListagem de quantos produtos mais vendidos(EM ORDEM CRESCENTE): ");
-								armazem.maisVendidos(stock);
+								stock.maisVendidos(produtos);
 								break;
 							case 6:
-								armazem.imprimirTodos(stock);
+								stock.imprimirTodos(produtos);
 								break;
 							default:
-								System.out.println("OPÇÃO INVÁLIDA! TENTE DE NOVO");
+								System.out.println("OPCAO INVALIDA! TENTE DE NOVO");
 								break;
 							}
 						} while (opcaoProduto != 0);// FIM DA OPERAÇÕES DE PRODUTOS
 
 						break;
-					case 3:// VENDAS IGUALAR TEMPORARIO COM O QUE ESTÁ FORA
-							// PIV EVERY VENDA
+					case 3:
 						for (int i = 0; i < clientes.size(); i++) {
 							for (int j = 0; j < ((Cliente) clientes.get(i)).getCompras().size(); j++) {
-//								for (int k = 0; k < (Compra) ((Cliente)clientes.get(j)).getCompras().get(j); k++) {
-//									System.out.println("");
-//								}
+//								
 							}
 
 						}

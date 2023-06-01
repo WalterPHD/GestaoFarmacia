@@ -16,25 +16,21 @@ public class OperecoesCliente {
 			lista.add(cl);
 			return lista;
 		} else {
-			System.out.println("Cliente com este BI já existe");
+			System.out.println("Cliente com este BI ja existe");
 			return lista;
 		}
 	}
-
-	public int geracaoID(Vector lista) {
-		Random random = new Random();
-		int id = random.nextInt(101);
-		for (int i = 0; i < lista.size(); i++) {
-			if (((Cliente) lista.get(i)).getId() == id) {
-				return geracaoID(lista);
-			}
-		}
-		return id;
-	}
-
 	public int procuraBI(Vector lista, String bi) {
 		for (int i = 0; i < lista.size(); i++) {
 			if ((((Cliente) lista.get(i)).getBi()).equalsIgnoreCase(bi)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	public int procuraEmail(Vector lista, String email) {
+		for (int i = 0; i < lista.size(); i++) {
+			if ((((Cliente) lista.get(i)).getEmail()).equalsIgnoreCase(email)) {
 				return i;
 			}
 		}
@@ -56,17 +52,9 @@ public class OperecoesCliente {
 			lista.remove(index);
 			System.out.println("Removido com sucesso");
 		} else {
-			System.out.println("ID NÃO EXISTE");
+			System.out.println("ID NAO EXISTE");
 		}
 	}
-
-	/*
-	 * Recebe o ID do cliente que está a usar o programa no da compra Recebe a lista
-	 * de clientes E recebe o cliente Compra recebe o objecto carrinho depois de
-	 * seleccionar tudo que quer comprar
-	 * 
-	 */
-
 	public void editarDadoCliente(Vector clientes, int id) {
 		int index = procuraID(clientes, id);
 
@@ -77,44 +65,36 @@ public class OperecoesCliente {
 				do {
 					System.out.println("***Menu de Edição de Dados do Cliente***");
 					System.out.println("\nModifique dados do Cliente" + ((Cliente) clientes.get(index)).toString()
-							+ "\n1-Nome do Cliente \n2-BI \n3-Número de telefone \n0 - Sair");
+							+ "\n1-Nome do Cliente \n2-E-mail \n3-Numero de telefone \n0 - Sair");
 					escolha = input.nextInt();
 					switch (escolha) {
-					case 0:
-
-						break;
 					case 1:
 						System.out.println("Insira o nome do cliente:");
-						String nome = input.next().toUpperCase();
-						input.nextLine();
+						String nome = input.nextLine();
 						((Cliente) clientes.get(index)).setNome(nome);
-						;
 						System.out.println("Nome atualizado para: " + ((Cliente) clientes.get(index)).getNome());
 						break;
 					case 2:
-						System.out.println("Insira o novo nº de BI para o cliente:");
-						String bi = input.next().toUpperCase();
-						input.nextLine();
-						int indice = procuraBI(clientes, bi);
+						System.out.println("Insira o novo E-mail para o cliente:");
+						String email =input.nextLine();
+						int indice = procuraEmail(clientes, email);
 						if(indice!=-1) {
-							((Cliente) clientes.get(index)).setBi(bi);
-							System.out.println(
-									"Código de identificação atualizado para: " + ((Cliente) clientes.get(index)).getBi());
-							
+							((Cliente) clientes.get(index)).setEmail(email);
+							System.out.println("O E-mail foi actualizado atualizado para: " + ((Cliente) clientes.get(index)).getEmail());
+								break;
 						}else {
-							System.out.println("Número de BI já existente!");
+							System.out.println("O E-mail nao existe");
 						}
 						break;
 					case 3:
 						System.out.println("Insira o novo número de telefone do cliente:");
-						String telefone = "+" + input.next().toUpperCase();
-						input.nextLine();
+						String telefone =input.nextLine();
 						((Cliente) clientes.get(index)).setNumeroTel(telefone);
 						System.out
 								.println("Telefone atualizado para: " + ((Cliente) clientes.get(index)).getNumeroTel());
 						break;
 					default:
-						System.out.println("Opção Inválida!\nInsira novamente:");
+						System.out.println("Opção Invalida!\nInsira novamente:");
 
 						break;
 					}
@@ -122,7 +102,7 @@ public class OperecoesCliente {
 
 			}
 		} else {
-			System.out.println("Cliente não encontrado!");
+			System.out.println("Cliente nao encontrado!");
 		}
 	}
 
@@ -136,8 +116,6 @@ public class OperecoesCliente {
 			System.out.println("SEM CLIENTES!");
 		}
 	}
-
-	// Ver conta corrente do Cliente (Tudo que o cliente já comprou em produtos)
 	public void verContaCorrente(Vector clientes, int id) {
 		Scanner input = new Scanner(System.in);
 		double valorTotal = 0;
@@ -150,9 +128,9 @@ public class OperecoesCliente {
 				System.out.println(((Compras) compras.get(j)).toString());
 				valorTotal += ((Compras) compras.get(j)).getTotal();
 			}
-			System.out.println(((Cliente) clientes.get(index)).curtoString()+" já gastou "+valorTotal+",00MT");
+			System.out.println(((Cliente) clientes.get(index)).curtoString()+" ja gastou "+valorTotal+" MT");
 		} else {
-			System.out.println("Este Cliente não existe");
+			System.out.println("Este Cliente nao existe");
 		}
 
 	}
