@@ -1,14 +1,34 @@
 package classes;
 
 import java.io.Serializable;
+import java.util.Vector;
 
-public class Cliente implements Serializable{
+public class Cliente implements Serializable {
 
     private int id, nuit, idade;
     private String nome, celular;
     private char sexo;
     private double saldo;
+    private Vector compras;
 
+    public Cliente(int id, int nuit, int idade, String nome, String celular, char sexo, double saldo, Vector compras) {
+        this.id = id;
+        this.nuit = nuit;
+        this.idade = idade;
+        this.nome = nome;
+        this.celular = celular;
+        this.sexo = sexo;
+        this.saldo = saldo;
+        this.compras = compras;
+    }
+
+    public Vector getCompras() {
+        return compras;
+    }
+
+    public void setCompras(Vector compras) {
+        this.compras = compras;
+    }
 
     public double getSaldo() {
         return saldo;
