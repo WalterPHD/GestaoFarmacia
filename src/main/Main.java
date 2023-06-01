@@ -74,7 +74,7 @@ public class Main {
 		int id;// Usando variavel id para todos requisitos
 		do {// OPERAÇÕES PRINCIPAL E TELA DE BEM-VINDO
 			System.out.println(
-					"\t-----\tBEM-VINDO(A) AO SUPERMERCADO LECC21\t-----\n SELECCIONE A SUA OPÇÃO\n1.Comprar\n2. Mais Opções(Cliente/Produto/Vendas)\n0. SAIR DO PROGRAMA\n>>> ");
+					"\t-----\tBEM-VINDO(A) A FARMACIA SALGADO\t-----\n SELECCIONE A SUA OPÇÃO\n1.Comprar\n2. Mais Opções(Cliente/Produto/Vendas)\n0. SAIR DO PROGRAMA\n>>> ");
 			operacao = ler.nextInt();
 			int procuraCodigo = -1;
 			switch (operacao) {
